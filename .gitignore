@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.npz
+*.log
+results/
+eval_runs/
+.DS_Store

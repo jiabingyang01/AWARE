@@ -6,8 +6,8 @@
 window.SITE_CONFIG = {
   links: {
     paper: "",
-    code: "",
-    video: ""
+    code: "https://github.com/jiabingyang01/AWARE",
+    video: "#rollouts"
   }
 };
 
