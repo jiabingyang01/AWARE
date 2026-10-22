@@ -1,6 +1,7 @@
 /* Paired rollout clips, one list per benchmark. LIBERO: OpenVLA-OFT, base policy vs. AWARE at the Table I
    strength, same task and standard initial state. SIMPLER: SpatialVLA on WidowX, base vs. AWARE (alpha = 0.08),
-   same task and episode configuration. Built by tools/build_videos.py. */
+   same task and episode configuration. CALVIN: LLaVA-VLA on ABC->D 5-subtask chains, base vs. AWARE (alpha = 0.01).
+   Built by tools/build_videos.py. */
 window.ROLLOUTS = {
  "LIBERO": [
   {
@@ -291,6 +292,104 @@ window.ROLLOUTS = {
      "rule": "AWARE",
      "file": "assets/videos/simpler/StackGreenCubeOnYellowCube_ep14_aware.mp4",
      "poster": "assets/videos/simpler/StackGreenCubeOnYellowCube_ep14_aware.jpg",
+     "success": true
+    }
+   ]
+  }
+ ],
+ "CALVIN": [
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "seq402",
+   "title": "Push pink block → open drawer → slide door → lift red block → place in drawer",
+   "chip": "Chain #402 (0/5 → 5/5)",
+   "instruction": "go push the pink block right → pull the handle to open the drawer → push the sliding door to the right side → grasp and lift the red block → store the grasped block in the drawer",
+   "episode": 402,
+   "episode_label": "chain",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/calvin/seq402_base.mp4",
+     "poster": "assets/videos/calvin/seq402_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/calvin/seq402_aware.mp4",
+     "poster": "assets/videos/calvin/seq402_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "seq201",
+   "title": "Rotate pink block → slide door → turn on LED → close drawer → lift pink block",
+   "chip": "Chain #201 (0/5 → 5/5)",
+   "instruction": "take the pink block and rotate it to the right → push the sliding door to the right side → press the button to turn on the led light → push the handle to close the drawer → grasp and lift the pink block",
+   "episode": 201,
+   "episode_label": "chain",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/calvin/seq201_base.mp4",
+     "poster": "assets/videos/calvin/seq201_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/calvin/seq201_aware.mp4",
+     "poster": "assets/videos/calvin/seq201_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "seq232",
+   "title": "Lift blue block → stack block → slide door → unstack block → push pink block",
+   "chip": "Chain #232 (1/5 → 5/5)",
+   "instruction": "lift the blue block from the sliding cabinet → stack the grasped block → push the sliding door to the left side → remove the stacked block → go push the pink block left",
+   "episode": 232,
+   "episode_label": "chain",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/calvin/seq232_base.mp4",
+     "poster": "assets/videos/calvin/seq232_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/calvin/seq232_aware.mp4",
+     "poster": "assets/videos/calvin/seq232_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "seq339",
+   "title": "Lift blue block → place in slider → slide door → close drawer → lift red block",
+   "chip": "Chain #339 (1/5 → 5/5)",
+   "instruction": "grasp and lift the blue block → store the grasped block in the sliding cabinet → push the sliding door to the right side → push the handle to close the drawer → lift the red block from the sliding cabinet",
+   "episode": 339,
+   "episode_label": "chain",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/calvin/seq339_base.mp4",
+     "poster": "assets/videos/calvin/seq339_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/calvin/seq339_aware.mp4",
+     "poster": "assets/videos/calvin/seq339_aware.jpg",
      "success": true
     }
    ]

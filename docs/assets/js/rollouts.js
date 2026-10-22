@@ -17,12 +17,18 @@
     return i >= 0 ? (rule === "Base" ? B.base[i] : B.aware[i]) : null;
   }
 
+  function calRate(ex, rule) {
+    var K = D.calvin;
+    return K ? (rule === "Base" ? K.base[4] : K.aware[4]) : null;
+  }
+
   var BENCH = {
     LIBERO: { head: ["LIBERO", "Spatial · Object · Goal · Long"], aspect: "1 / 1", rate: libRate, rate0: 2,
       note: "Percentages are the success rates of each policy on this suite (Table I, 500 episodes per suite)." },
     SIMPLER: { head: ["SIMPLER", "Visual Matching"], aspect: "4 / 3", rate: simRate,
       note: "Percentages are the success rates of each policy on this task (Table II)." },
-    CALVIN: { head: ["CALVIN", "ABC→D"], aspect: "1 / 1", rate: null, rate0: 1, note: "" }
+    CALVIN: { head: ["CALVIN", "ABC→D"], aspect: "1 / 1", rate: calRate, rate0: 1,
+      note: "Percentages are the 5/5 chain completion rates of each policy on CALVIN ABC→D (Table III, 500 chains)." }
   };
 
   SITE.inits.push(function () {
