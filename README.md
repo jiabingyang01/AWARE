@@ -179,7 +179,7 @@ If you find AWARE useful for your research, please consider citing our paper:
 ```bibtex
 @article{yang2026aware,
   title   = {AWARE: Action-Entropy-Weighted and Attention-Guided Retrieval of Observation Evidence for Vision-Language-Action Models},
-  author  = {Yang, Jiabing and Chen, Yixiang and Xu, Yuan and Li, Peiyan and Wu, Xiangnan and Wen, Zichen and Fang, Bowen and Yu, Tao and Zhang, Zhengbo and Li, Yingda and Wang, Kai and Liu, Jing and Liu, Nianfeng and Huang, Yan and Wang, Liang},
+  author  = {Yang, Jiabing and Chen, Yixiang and Xu, Yuan and Li, Peiyan and Wen, Zichen and Fang, Bowen and Cui, Chenhang and Yu, Tao and Ma, Qisen and Wang, Kai and He, Ziheng and Ye, Wen and Wu, Xiangnan and Li, Yingda and Huang, Yan and Wang, Liang},
   journal = {arXiv preprint arXiv:2602.18020},
   year    = {2026}
 }
