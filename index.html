@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AWARE | Observation Evidence for VLA Models</title>
+  <meta name="description" content="AWARE: Action-Entropy-Weighted and Attention-Guided Retrieval of Observation Evidence for Vision-Language-Action Models. Training-free, plug-and-play observation retrieval for VLA models.">
+  <meta name="theme-color" content="#0f0b1c">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#overview">Skip to content</a>
+
+<!-- ============================================================ NAV -->
+<nav class="nav over-hero" id="nav" aria-label="Sections">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Back to top">
+      <svg class="brand-mark" viewBox="0 0 26 26" aria-hidden="true">
+        <defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d1263"/><stop offset=".55" stop-color="#7030a0"/><stop offset="1" stop-color="#b48ad8"/></linearGradient></defs>
+        <rect x="1" y="1" width="24" height="24" rx="7" fill="url(#bm)"/>
+        <rect x="5.5" y="17" width="3" height="3" rx=".8" fill="#fde725"/>
+        <rect x="9.6" y="17" width="3" height="3" rx=".8" fill="#5ec962"/>
+        <rect x="13.7" y="17" width="3" height="3" rx=".8" fill="#21918c"/>
+        <rect x="17.8" y="17" width="3" height="3" rx=".8" fill="#3b528b"/>
+        <path d="M7 15.2 C 9 10.5, 13 7.5, 19.3 6.2" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+        <circle cx="19.3" cy="6.2" r="1.9" fill="#fff"/>
+      </svg>
+      <span class="brand-text"><em>AWARE</em></span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#diagnosis">Diagnosis</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#analysis">Analysis</a></li>
+      <li><a href="#rollouts">Rollouts</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open section menu" aria-expanded="false" aria-controls="nav-links"><span></span></button>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</nav>
+
+<!-- ============================================================ HERO -->
+<header class="hero" id="top">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="hero-kicker">
+      <span class="badge-acc">AWARE</span>
+      <span>Training-free · plug-and-play · no additional observation cues</span>
+    </div>
+    <h1 class="hero-title"><span class="wm">AWARE</span><span class="sr-only">: Action-Entropy-Weighted and Attention-Guided Retrieval of Observation Evidence for Vision-Language-Action Models</span></h1>
+    <p class="hero-sub" aria-hidden="true"><span class="nobr"><b>A</b>ction-Entropy-<b>W</b>eighted and <b>A</b>ttention-Guided</span> <span class="nobr"><b>R</b>etrieval of Observation <b>E</b>vidence</span><br><span class="for">for Vision-Language-Action Models</span></p>
+    <div class="hero-authors-block">
+      <p class="hero-authors">
+        <a class="author-link" href="https://jiabingyang01.github.io/" target="_blank" rel="noopener"><strong>Jiabing Yang</strong><sup>1,2</sup></a>,
+        <span>Yixiang Chen<sup>1,2</sup></span>,
+        <span>Yuan Xu<sup>1,2</sup></span>,
+        <span>Peiyan Li<sup>1,2</sup></span>,
+        <span>Xiangnan Wu<sup>1,2</sup></span>,
+        <span>Zichen Wen<sup>3</sup></span>,
+        <span>Bowen Fang<sup>1,2</sup></span>,
+        <span>Tao Yu<sup>1,2</sup></span>,<br class="desktop-br">
+        <span>Zhengbo Zhang<sup>1,2</sup></span>,
+        <span>Yingda Li<sup>1,2</sup></span>,
+        <span>Kai Wang<sup>1,2</sup></span>,
+        <span>Jing Liu<sup>4</sup></span>,
+        <span>Nianfeng Liu<sup>4</sup></span>,
+        <span>Yan Huang<sup>1,2,4,&dagger;</sup></span>,
+        <span>Liang Wang<sup>1,2</sup></span>
+      </p>
+      <p class="hero-affils">
+        <span><sup>1</sup>School of Artificial Intelligence, UCAS</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span><sup>2</sup>NLPR, MAIS, CASIA</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span><sup>3</sup>Shanghai Jiao Tong University</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span><sup>4</sup>FiveAges</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span><sup>&dagger;</sup>Corresponding author</span>
+      </p>
+    </div>
+    <ul class="hero-facts" id="hero-facts" aria-label="Scope of the evaluation"></ul>
+    <div class="hero-actions" id="hero-links"></div>
+  </div>
+  <div class="hero-legend" aria-hidden="true"><span class="hl-ramp"></span><span>Action Entropy per element and layer, OpenVLA-OFT</span></div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================ 01 OVERVIEW -->
+<section class="section" id="overview" aria-labelledby="overview-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">01</span>Overview</span>
+      <h2 class="sec-title" id="overview-title">Re-read the observation <em>where the action is still undecided</em></h2>
+    </div>
+
+    <div class="card tldr reveal">
+      <span class="tldr-tag">TL;DR</span>
+      <p data-t="tldr"></p>
+    </div>
+
+    <div class="results-row" id="key-results" aria-label="Key results"></div>
+
+    <details class="abstract reveal">
+      <summary><span>Abstract</span><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="body"><p data-t="abstract"></p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============================================================ 02 DIAGNOSIS -->
+<section class="section tint" id="diagnosis" aria-labelledby="diagnosis-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">02</span>Diagnosis</span>
+      <h2 class="sec-title" id="diagnosis-title">Grounding fades with depth, and <em>far actions settle last</em></h2>
+      <p class="lede" data-t="diagnosis/lede"></p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card diag-card reveal">
+        <div class="card-head">
+          <div class="ttl">(a) Observation share of the action representation<small data-t="diagnosis/footprint_sub"></small></div>
+          <button class="fig-link" type="button" data-fig-open="footprint"></button>
+        </div>
+        <div class="chart" id="fp-chart"></div>
+        <div class="legend" id="fp-legend"></div>
+        <div class="diag-note" id="fp-note"></div>
+      </div>
+      <div class="card diag-card reveal">
+        <div class="card-head">
+          <div class="ttl">(b) Action Entropy across the chunk<small data-t="diagnosis/entropy_sub"></small></div>
+          <button class="fig-link" type="button" data-fig-open="footprint"></button>
+        </div>
+        <div class="controls mb-8">
+          <span class="ctl"><span class="ctl-label">Show</span><span class="seg" id="ent-mode" role="group" aria-label="Quantity shown"></span></span>
+        </div>
+        <div class="chart" id="ent-chart"></div>
+        <div class="heat-scale" id="ent-scale"></div>
+        <div class="diag-note" id="ent-note"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 03 METHOD -->
+<section class="section" id="method" aria-labelledby="method-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">03</span>Method</span>
+      <h2 class="sec-title" id="method-title">The model's own FFN <em>as a memory of the observation</em></h2>
+      <p class="lede" data-t="method/lede"></p>
+    </div>
+
+    <figure class="card figure-card reveal">
+      <img src="assets/img/aware_pipeline.webp" width="3693" height="1874" loading="lazy" decoding="async" data-zoom data-fig="aware_pipeline" alt="">
+      <figcaption class="caption"><b>Figure 2.</b> <span data-t="figures/aware_pipeline/caption"></span></figcaption>
+    </figure>
+
+    <div class="eq-grid mt-24" id="eq-grid"></div>
+
+    <div class="grid-2 mt-24">
+      <div class="card reveal">
+        <h3 class="label">One forward pass with AWARE</h3>
+<pre class="code" aria-label="Pseudo-code of AWARE for one forward pass"><code><span class="c"># once per policy call</span>
+O = <span class="f">obs_tokens</span>(obs)                 <span class="c"># keys = values = O</span>
+g = <span class="f">instr_weight</span>(instr, O)          <span class="c"># Eq. (g)</span>
+<span class="k">for</span> l <span class="k">in</span> <span class="f">range</span>(L - <span class="n">1</span>):
+    H = <span class="f">entropy</span>(<span class="f">lm_head</span>(h_act[l]))   <span class="c"># per element</span>
+    w = alpha * l / (L - <span class="n">1</span>) * H       <span class="c"># Eq. (w)</span>
+    q = <span class="f">ffn_in</span>(h_act[l + <span class="n">1</span>])          <span class="c"># own query</span>
+    inj = s * O.T @ (g * (O @ q))       <span class="c"># Eq. (9)</span>
+    out[l + <span class="n">1</span>] = (<span class="n">1</span> - w) * out[l + <span class="n">1</span>] + w * inj
+<span class="c"># non-action tokens keep their native FFN output</span></code></pre>
+        <ul class="pills">
+          <li class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Training-free</li>
+          <li class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>Plug-and-play</li>
+          <li class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8 12h8"/></svg>No extra sensors or modules</li>
+          <li class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M5 8l7-5 7 5"/></svg>One strength <span class="m">&nbsp;<i>α</i></span></li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="ttl">Where the entropy is read, per backbone family<small data-t="method/mapping_sub"></small></div>
+        </div>
+        <div class="table-wrap"><table class="rt map-table" id="map-table"></table></div>
+      </div>
+    </div>
+
+    <div class="sub-head mt-48 reveal">
+      <h3 class="sub">Where AWARE writes, element by element</h3>
+      <p class="muted" data-t="method/widget_sub"></p>
+    </div>
+    <div class="card widget reveal" id="wmap-widget">
+      <div class="widget-top">
+        <div class="presets" role="group" aria-label="Variant of the rule" id="wm-presets"></div>
+      </div>
+      <div class="widget-body">
+        <div class="widget-stage">
+          <div class="chart" id="wm-chart" aria-describedby="wm-desc"></div>
+          <p class="sr-only" id="wm-desc">Injection weight of every OpenVLA-OFT action element (columns) at every layer (rows) for the selected variant and strength. Brighter cells receive more retrieved observation evidence.</p>
+          <div class="wm-formula" id="wm-formula"></div>
+        </div>
+        <div class="widget-side">
+          <div class="slider-row">
+            <label for="wm-alpha">Strength <span class="m"><i>α</i></span></label>
+            <input type="range" id="wm-alpha" min="1" max="10" step="1" value="3">
+            <output id="wm-alpha-out" for="wm-alpha"></output>
+          </div>
+          <div class="readout" aria-live="polite">
+            <div class="k">Mean weight over the stack</div>
+            <div class="v" id="wm-mean"></div>
+            <div class="n" id="wm-max"></div>
+            <div class="meter"><i id="wm-bar"></i></div>
+          </div>
+          <div class="readout" id="wm-success"></div>
+        </div>
+      </div>
+      <div class="widget-foot">
+        <span class="ramp-scale" id="wm-scale">w&nbsp;=&nbsp;0 <i></i> high</span>
+        <span class="data-tag" id="wm-tag">Entropy from Figure 1b · success from Figure 5 and Table IV</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 04 RESULTS -->
+<section class="section tint" id="results" aria-labelledby="results-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">04</span>Results</span>
+      <h2 class="sec-title" id="results-title">Seven backbones, <em>largest gains on long horizons</em></h2>
+      <p class="lede" data-t="results/lede"></p>
+    </div>
+
+    <div class="bench-strip reveal" id="bench-strip"></div>
+
+    <div class="tabs" role="tablist" aria-label="Benchmarks" id="results-tabs">
+      <button class="tab" role="tab" id="tab-libero" aria-controls="panel-libero" aria-selected="true">LIBERO</button>
+      <button class="tab" role="tab" id="tab-simpler" aria-controls="panel-simpler" aria-selected="false" tabindex="-1">SIMPLER</button>
+      <button class="tab" role="tab" id="tab-calvin" aria-controls="panel-calvin" aria-selected="false" tabindex="-1">CALVIN</button>
+      <button class="tab" role="tab" id="tab-real" aria-controls="panel-real" aria-selected="false" tabindex="-1">Real world</button>
+    </div>
+
+    <!-- LIBERO -->
+    <div class="tabpanel" role="tabpanel" id="panel-libero" aria-labelledby="tab-libero" tabindex="0">
+      <div class="grid-2 wide-left">
+        <div class="card">
+          <div class="card-head">
+            <div class="ttl">Base → w/ AWARE, per suite<small>Each segment runs from the base policy to the same checkpoint with AWARE; hover for the numbers and the strength α.</small></div>
+            <span class="data-tag">Table I</span>
+          </div>
+          <div class="legend" id="lib-legend"></div>
+          <div class="chart" id="lib-dumbbell"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div class="ttl">Gain by suite<small>Δ = w/ AWARE − Base, success points; Long is where the gain is largest for every backbone.</small></div>
+          </div>
+          <div class="chart" id="lib-gain"></div>
+          <h3 class="label mt-24">Strength α used in Table I</h3>
+          <div class="table-wrap"><table class="rt alpha-table" id="lib-alpha"></table></div>
+        </div>
+      </div>
+      <div class="table-wrap mt-24"><table class="rt" id="lib-table"></table></div>
+      <p class="table-caption" id="lib-caption"></p>
+    </div>
+
+    <!-- SIMPLER -->
+    <div class="tabpanel" role="tabpanel" id="panel-simpler" aria-labelledby="tab-simpler" tabindex="0" hidden>
+      <div class="table-wrap"><table class="rt" id="sim-table"></table></div>
+      <p class="table-caption" id="sim-caption"></p>
+      <div class="grid-2 mt-24">
+        <div class="card"><div class="card-head"><div class="ttl">Google Robot · CogACT<small id="sim-g-sub"></small></div></div><div class="chart" id="sim-g-chart"></div></div>
+        <div class="card"><div class="card-head"><div class="ttl">WidowX · SpatialVLA<small id="sim-w-sub"></small></div></div><div class="chart" id="sim-w-chart"></div></div>
+      </div>
+    </div>
+
+    <!-- CALVIN -->
+    <div class="tabpanel" role="tabpanel" id="panel-calvin" aria-labelledby="tab-calvin" tabindex="0" hidden>
+      <div class="grid-2 wide-left">
+        <div class="card">
+          <div class="card-head">
+            <div class="ttl">Success by chain length<small data-t="results/calvin_sub"></small></div>
+            <span class="data-tag">Table III</span>
+          </div>
+          <div class="legend" id="cal-legend"></div>
+          <div class="chart" id="cal-chart"></div>
+        </div>
+        <div class="card cal-side">
+          <div class="stat-row" id="cal-stats"></div>
+          <p class="note" data-t="results/calvin_note"></p>
+        </div>
+      </div>
+      <div class="table-wrap mt-24"><table class="rt" id="cal-table"></table></div>
+      <p class="table-caption" id="cal-caption"></p>
+    </div>
+
+    <!-- REAL WORLD -->
+    <div class="tabpanel" role="tabpanel" id="panel-real" aria-labelledby="tab-real" tabindex="0" hidden>
+      <div id="real-root"></div>
+    </div>
+
+    <div class="mt-48 reveal">
+      <h3 class="sub">Where the gain is small or reversed</h3>
+      <ul class="scope-list" id="scope-list"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 05 ANALYSIS -->
+<section class="section" id="analysis" aria-labelledby="analysis-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">05</span>Analysis</span>
+      <h2 class="sec-title" id="analysis-title">The gain comes from <em>routing real evidence</em></h2>
+      <p class="lede sm" data-t="analysis/lede"></p>
+    </div>
+
+    <div class="an-grid">
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="ttl">Component analysis<small>Average success over the four LIBERO suites when one part of the rule is removed; hover a bar for each suite.</small></div>
+          <span class="data-tag">Table IV</span>
+        </div>
+        <div class="chart" id="abl-chart"></div>
+        <p class="caption" data-t="analysis/ablation_note"></p>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="ttl">Diagnostic variants on LIBERO-Long<small>Gain over the base policy when the entropy routing or the injected content is replaced.</small></div>
+          <span class="data-tag">Table V</span>
+        </div>
+        <div class="chart" id="ctl-chart"></div>
+        <p class="caption" data-t="analysis/controls_note"></p>
+      </div>
+
+      <div class="card span-2 reveal">
+        <div class="card-head">
+          <div class="ttl">Sensitivity to the strength α<small id="alpha-sub"></small></div>
+          <button class="fig-link" type="button" data-fig-open="alpha"></button>
+        </div>
+        <div class="controls mb-8">
+          <span class="ctl"><span class="ctl-label">Backbone</span><span class="seg" id="alpha-model" role="group" aria-label="Backbone"></span></span>
+        </div>
+        <div class="alpha-wrap">
+          <div class="chart" id="alpha-chart"></div>
+          <div class="alpha-side" id="alpha-side"></div>
+        </div>
+        <div class="legend" id="alpha-legend"></div>
+      </div>
+
+      <div class="card span-2 reveal" id="cost-card">
+        <div class="card-head">
+          <div class="ttl">Inference overhead<small>OpenVLA-OFT on LIBERO-Long, one NVIDIA A100 GPU; the policy predicts chunks of H = 8, so the per-step latency is the wait per environment step.</small></div>
+          <span class="data-tag">Table VI</span>
+        </div>
+        <div class="cost-grid" id="cost-grid"></div>
+        <p class="caption" data-t="analysis/cost_note"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 06 ROLLOUTS -->
+<section class="section tint" id="rollouts" aria-labelledby="rollouts-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">06</span>Rollouts</span>
+      <h2 class="sec-title" id="rollouts-title">Base vs. <em>w/ AWARE</em>, side by side</h2>
+      <p class="lede" data-t="videos/lede"></p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Rollout videos" id="video-tabs"></div>
+    <div id="video-panels"></div>
+  </div>
+</section>
+
+
+<!-- ============================================================ CITATION -->
+<section class="section" id="citation" aria-labelledby="citation-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">07</span>Citation</span>
+      <h2 class="sec-title" id="citation-title">BibTeX</h2>
+    </div>
+    <div class="card reveal">
+<pre class="code" aria-label="BibTeX citation"><code>@article{yang2026aware,
+  title   = {AWARE: Action-Entropy-Weighted and Attention-Guided Retrieval of Observation Evidence for Vision-Language-Action Models},
+  author  = {Yang, Jiabing and Chen, Yixiang and Xu, Yuan and Li, Peiyan and Wu, Xiangnan and Wen, Zichen and Fang, Bowen and Yu, Tao and Zhang, Zhengbo and Li, Yingda and Wang, Kai and Liu, Jing and Liu, Nianfeng and Huang, Yan and Wang, Liang},
+  journal = {arXiv preprint arXiv:2602.18020},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span class="brand-text"><em>AWARE</em> · Retrieval of Observation Evidence for VLA Models</span>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Figure viewer">
+  <button class="close" id="lb-close" aria-label="Close figure viewer">×</button>
+  <figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure>
+</div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<noscript><p class="noscript">This page renders its figures and numbers with JavaScript; please enable it to view the results.</p></noscript>
+
+<!-- data -->
+<script src="assets/data/colors.js"></script>
+<script src="assets/data/paper_data.js"></script>
+<script src="assets/data/fig_data.js"></script>
+<script src="assets/data/text.js"></script>
+<script src="assets/videos/manifest.js"></script>
+<!-- page code -->
+<script src="assets/js/main.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/player.js"></script>
+<script src="assets/js/hero.js"></script>
+<script src="assets/js/overview.js"></script>
+<script src="assets/js/diagnosis.js"></script>
+<script src="assets/js/method.js"></script>
+<script src="assets/js/results.js"></script>
+<script src="assets/js/analysis.js"></script>
+<script src="assets/js/rollouts.js"></script>
+<script>SITE.boot();</script>
+</body>
+</html>
