@@ -39,7 +39,7 @@ window.PAPER_TEXT = {
   },
 
   videos: {
-    lede: "Paired rollouts from the evaluation runs behind Tables I–III: within an example both clips start from the same initial state, and the only difference is AWARE. Each example is an episode the base policy fails and AWARE completes; the percentage under a clip is that policy's success rate on the whole suite or task."
+    lede: "Paired rollouts from the evaluation runs behind Tables I–III and Figure 3: within an example both clips compare the base policy against AWARE on the same task, and the percentage under a clip is that policy's success rate on the whole suite or task."
   },
 
   figures: {

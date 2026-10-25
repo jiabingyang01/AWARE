@@ -4,7 +4,7 @@
 (function () {
   "use strict";
   var D = SITE.D, T = SITE.T, col = SITE.colors;
-  var ORDER = ["OpenVLA", "π0", "π0.5", "OpenVLA-OFT", "CogACT", "SpatialVLA", "LLaVA-VLA"];
+  var ORDER = ["LLaVA-VLA", "OpenVLA", "OpenVLA-OFT", "CogACT", "SpatialVLA", "π0", "π0.5"];
 
   function libRate(ex, rule) {
     var m = D.libero.models.filter(function (x) { return x.name === ex.backbone; })[0];
@@ -16,10 +16,15 @@
     var i = B ? B.columns.indexOf(ex.column) : -1;
     return i >= 0 ? (rule === "Base" ? B.base[i] : B.aware[i]) : null;
   }
-
   function calRate(ex, rule) {
     var K = D.calvin;
     return K ? (rule === "Base" ? K.base[4] : K.aware[4]) : null;
+  }
+  function realRate(ex, rule) {
+    var R = D.real_world; if (!R) return null;
+    var m = R.models.filter(function (x) { return x.name === ex.backbone; })[0];
+    var i = R.columns.indexOf(ex.task);
+    return m && i >= 0 ? (rule === "Base" ? m.base[i] : m.aware[i]) : null;
   }
 
   var BENCH = {
@@ -28,7 +33,10 @@
     SIMPLER: { head: ["SIMPLER", "Visual Matching"], aspect: "4 / 3", rate: simRate,
       note: "Percentages are the success rates of each policy on this task (Table II)." },
     CALVIN: { head: ["CALVIN", "ABC→D"], aspect: "1 / 1", rate: calRate, rate0: 1,
-      note: "Percentages are the 5/5 chain completion rates of each policy on CALVIN ABC→D (Table III, 500 chains)." }
+      note: "Percentages are the 5/5 chain completion rates of each policy on CALVIN ABC→D (Table III, 500 chains)." },
+    Real: { label: "Real world", head: ["Franka Research 3 with a parallel-jaw gripper", "overhead ZED 2i camera"], aspect: "16 / 9", rate: realRate, rate0: 1,
+      syncNote: "On the real arm the two clips of an example are separate trials of the same task, recorded by the overhead camera and played in sync; the clip that finishes early holds its last frame. Success is the operator's label of each trial.",
+      note: "Percentages are the success rates of each policy on this task (Figure 3, 40 rollouts per task and policy)." }
   };
 
   SITE.inits.push(function () {
@@ -40,8 +48,8 @@
       return;
     }
     names.forEach(function (b, i) {
-      var id = "v-" + b.toLowerCase();
-      tabs.insertAdjacentHTML("beforeend", '<button class="tab" role="tab" id="tab-' + id + '" aria-controls="panel-' + id + '" aria-selected="' + (i === 0) + '"' + (i ? ' tabindex="-1"' : "") + ">" + b + '<span class="cnt">' + R[b].length + "</span></button>");
+      var id = "v-" + b.toLowerCase(), lbl = BENCH[b].label || b;
+      tabs.insertAdjacentHTML("beforeend", '<button class="tab" role="tab" id="tab-' + id + '" aria-controls="panel-' + id + '" aria-selected="' + (i === 0) + '"' + (i ? ' tabindex="-1"' : "") + ">" + lbl + '<span class="cnt">' + R[b].length + "</span></button>");
       panels.insertAdjacentHTML("beforeend", '<div class="tabpanel" role="tabpanel" id="panel-' + id + '" aria-labelledby="tab-' + id + '" tabindex="0"' + (i ? " hidden" : "") + '><div id="' + id + '-root"></div></div>');
     });
     names.forEach(function (b) {
@@ -58,10 +66,11 @@
         highlight: function (r) { return r === "AWARE"; },
         rate: cfg.rate,
         rateNote: cfg.note,
+        syncNote: cfg.syncNote,
         rate0: cfg.rate0,
         aspect: cfg.aspect,
         sub: function (ex) {
-          return [SITE.modelHTML(SITE.esc(ex.backbone)), ex.suite ? "LIBERO-" + SITE.esc(ex.suite) : "", ex.alpha != null ? "α&nbsp;=&nbsp;" + (+ex.alpha).toFixed(2) : "", ex.episode != null ? (ex.episode_label || "episode") + " " + SITE.esc(ex.episode) : ""].filter(Boolean).join(" · ");
+          return [SITE.modelHTML(SITE.esc(ex.backbone)), ex.suite ? "LIBERO-" + SITE.esc(ex.suite) : "", ex.kind ? SITE.esc(ex.kind) : "", ex.alpha != null ? "α&nbsp;=&nbsp;" + (+ex.alpha).toFixed(2) : "", ex.episode != null ? (ex.episode_label || "episode") + " " + SITE.esc(ex.episode) : ""].filter(Boolean).join(" · ");
         }
       });
     });

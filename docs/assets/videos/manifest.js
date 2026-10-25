@@ -1,6 +1,7 @@
 /* Paired rollout clips, one list per benchmark. LIBERO: OpenVLA-OFT, base policy vs. AWARE at the Table I
    strength, same task and standard initial state. SIMPLER: SpatialVLA on WidowX, base vs. AWARE (alpha = 0.08),
    same task and episode configuration. CALVIN: LLaVA-VLA on ABC->D 5-subtask chains, base vs. AWARE (alpha = 0.01).
+   Real: five VLA backbones on the five Franka Research 3 tabletop tasks (overhead ZED 2i camera), base vs. AWARE.
    Built by tools/build_videos.py. */
 window.ROLLOUTS = {
  "LIBERO": [
@@ -390,6 +391,558 @@ window.ROLLOUTS = {
      "rule": "AWARE",
      "file": "assets/videos/calvin/seq339_aware.mp4",
      "poster": "assets/videos/calvin/seq339_aware.jpg",
+     "success": true
+    }
+   ]
+  }
+ ],
+ "Real": [
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "corn_to_pink_plate",
+   "title": "Put Corn on Pink Plate",
+   "instruction": "Put the corn on the pink plate",
+   "kind": "short-horizon placement",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/llava/llava_corn_to_pink_plate_base.mp4",
+     "poster": "assets/videos/realworld/llava/llava_corn_to_pink_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/llava/llava_corn_to_pink_plate_aware.mp4",
+     "poster": "assets/videos/realworld/llava/llava_corn_to_pink_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "press_yellow_then_blue_button",
+   "title": "Press Yellow Button then Blue",
+   "instruction": "Press the yellow button, then press the blue button",
+   "kind": "sequential button pressing",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/llava/llava_press_yellow_then_blue_button_base.mp4",
+     "poster": "assets/videos/realworld/llava/llava_press_yellow_then_blue_button_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/llava/llava_press_yellow_then_blue_button_aware.mp4",
+     "poster": "assets/videos/realworld/llava/llava_press_yellow_then_blue_button_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "box_cover_blue_block",
+   "title": "Cover Blue Block with the Box",
+   "instruction": "Cover the blue block with the box",
+   "kind": "obstacle occlusion",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/llava/llava_box_cover_blue_block_base.mp4",
+     "poster": "assets/videos/realworld/llava/llava_box_cover_blue_block_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/llava/llava_box_cover_blue_block_aware.mp4",
+     "poster": "assets/videos/realworld/llava/llava_box_cover_blue_block_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "corn_to_upper_rack",
+   "title": "Lift Corn onto Upper Rack Shelf",
+   "instruction": "Put the corn on the upper rack",
+   "kind": "multi-tier precision lifting",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/llava/llava_corn_to_upper_rack_base.mp4",
+     "poster": "assets/videos/realworld/llava/llava_corn_to_upper_rack_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/llava/llava_corn_to_upper_rack_aware.mp4",
+     "poster": "assets/videos/realworld/llava/llava_corn_to_upper_rack_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "LLaVA-VLA",
+   "task": "tomato_from_turntable_to_white_plate",
+   "title": "Move Tomato from Turntable to Plate",
+   "instruction": "Pick up the tomato from the rotating turntable and place it in the white plate",
+   "kind": "dynamic moving-target acquisition",
+   "alpha": 0.01,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/llava/llava_tomato_from_turntable_to_white_plate_base.mp4",
+     "poster": "assets/videos/realworld/llava/llava_tomato_from_turntable_to_white_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/llava/llava_tomato_from_turntable_to_white_plate_aware.mp4",
+     "poster": "assets/videos/realworld/llava/llava_tomato_from_turntable_to_white_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "OpenVLA-OFT",
+   "task": "corn_to_pink_plate",
+   "title": "Put Corn on Pink Plate",
+   "instruction": "Put the corn on the pink plate",
+   "kind": "short-horizon placement",
+   "alpha": 0.04,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/oft/oft_corn_to_pink_plate_base.mp4",
+     "poster": "assets/videos/realworld/oft/oft_corn_to_pink_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/oft/oft_corn_to_pink_plate_aware.mp4",
+     "poster": "assets/videos/realworld/oft/oft_corn_to_pink_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "OpenVLA-OFT",
+   "task": "press_yellow_then_blue_button",
+   "title": "Press Yellow Button then Blue",
+   "instruction": "Press the yellow button, then press the blue button",
+   "kind": "sequential button pressing",
+   "alpha": 0.04,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/oft/oft_press_yellow_then_blue_button_base.mp4",
+     "poster": "assets/videos/realworld/oft/oft_press_yellow_then_blue_button_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/oft/oft_press_yellow_then_blue_button_aware.mp4",
+     "poster": "assets/videos/realworld/oft/oft_press_yellow_then_blue_button_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "OpenVLA-OFT",
+   "task": "box_cover_blue_block",
+   "title": "Cover Blue Block with the Box",
+   "instruction": "Cover the blue block with the box",
+   "kind": "obstacle occlusion",
+   "alpha": 0.04,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/oft/oft_box_cover_blue_block_base.mp4",
+     "poster": "assets/videos/realworld/oft/oft_box_cover_blue_block_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/oft/oft_box_cover_blue_block_aware.mp4",
+     "poster": "assets/videos/realworld/oft/oft_box_cover_blue_block_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "OpenVLA-OFT",
+   "task": "corn_to_upper_rack",
+   "title": "Lift Corn onto Upper Rack Shelf",
+   "instruction": "Put the corn on the upper rack",
+   "kind": "multi-tier precision lifting",
+   "alpha": 0.04,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/oft/oft_corn_to_upper_rack_base.mp4",
+     "poster": "assets/videos/realworld/oft/oft_corn_to_upper_rack_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/oft/oft_corn_to_upper_rack_aware.mp4",
+     "poster": "assets/videos/realworld/oft/oft_corn_to_upper_rack_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "OpenVLA-OFT",
+   "task": "tomato_from_turntable_to_white_plate",
+   "title": "Move Tomato from Turntable to Plate",
+   "instruction": "Pick up the tomato from the rotating turntable and place it in the white plate",
+   "kind": "dynamic moving-target acquisition",
+   "alpha": 0.04,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/oft/oft_tomato_from_turntable_to_white_plate_base.mp4",
+     "poster": "assets/videos/realworld/oft/oft_tomato_from_turntable_to_white_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/oft/oft_tomato_from_turntable_to_white_plate_aware.mp4",
+     "poster": "assets/videos/realworld/oft/oft_tomato_from_turntable_to_white_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "CogACT",
+   "task": "corn_to_pink_plate",
+   "title": "Put Corn on Pink Plate",
+   "instruction": "Put the corn on the pink plate",
+   "kind": "short-horizon placement",
+   "alpha": 0.05,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/cogact/cogact_corn_to_pink_plate_base.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_corn_to_pink_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/cogact/cogact_corn_to_pink_plate_aware.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_corn_to_pink_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "CogACT",
+   "task": "press_yellow_then_blue_button",
+   "title": "Press Yellow Button then Blue",
+   "instruction": "Press the yellow button, then press the blue button",
+   "kind": "sequential button pressing",
+   "alpha": 0.05,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/cogact/cogact_press_yellow_then_blue_button_base.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_press_yellow_then_blue_button_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/cogact/cogact_press_yellow_then_blue_button_aware.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_press_yellow_then_blue_button_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "CogACT",
+   "task": "box_cover_blue_block",
+   "title": "Cover Blue Block with the Box",
+   "instruction": "Cover the blue block with the box",
+   "kind": "obstacle occlusion",
+   "alpha": 0.05,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/cogact/cogact_box_cover_blue_block_base.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_box_cover_blue_block_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/cogact/cogact_box_cover_blue_block_aware.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_box_cover_blue_block_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "CogACT",
+   "task": "corn_to_upper_rack",
+   "title": "Lift Corn onto Upper Rack Shelf",
+   "instruction": "Put the corn on the upper rack",
+   "kind": "multi-tier precision lifting",
+   "alpha": 0.05,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/cogact/cogact_corn_to_upper_rack_base.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_corn_to_upper_rack_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/cogact/cogact_corn_to_upper_rack_aware.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_corn_to_upper_rack_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "CogACT",
+   "task": "tomato_from_turntable_to_white_plate",
+   "title": "Move Tomato from Turntable to Plate",
+   "instruction": "Pick up the tomato from the rotating turntable and place it in the white plate",
+   "kind": "dynamic moving-target acquisition",
+   "alpha": 0.05,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/cogact/cogact_tomato_from_turntable_to_white_plate_base.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_tomato_from_turntable_to_white_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/cogact/cogact_tomato_from_turntable_to_white_plate_aware.mp4",
+     "poster": "assets/videos/realworld/cogact/cogact_tomato_from_turntable_to_white_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0",
+   "task": "corn_to_pink_plate",
+   "title": "Put Corn on Pink Plate",
+   "instruction": "Put the corn on the pink plate",
+   "kind": "short-horizon placement",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi0/pi0_corn_to_pink_plate_base.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_corn_to_pink_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi0/pi0_corn_to_pink_plate_aware.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_corn_to_pink_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0",
+   "task": "press_yellow_then_blue_button",
+   "title": "Press Yellow Button then Blue",
+   "instruction": "Press the yellow button, then press the blue button",
+   "kind": "sequential button pressing",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi0/pi0_press_yellow_then_blue_button_base.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_press_yellow_then_blue_button_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi0/pi0_press_yellow_then_blue_button_aware.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_press_yellow_then_blue_button_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0",
+   "task": "box_cover_blue_block",
+   "title": "Cover Blue Block with the Box",
+   "instruction": "Cover the blue block with the box",
+   "kind": "obstacle occlusion",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi0/pi0_box_cover_blue_block_base.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_box_cover_blue_block_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi0/pi0_box_cover_blue_block_aware.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_box_cover_blue_block_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0",
+   "task": "corn_to_upper_rack",
+   "title": "Lift Corn onto Upper Rack Shelf",
+   "instruction": "Put the corn on the upper rack",
+   "kind": "multi-tier precision lifting",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi0/pi0_corn_to_upper_rack_base.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_corn_to_upper_rack_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi0/pi0_corn_to_upper_rack_aware.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_corn_to_upper_rack_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0",
+   "task": "tomato_from_turntable_to_white_plate",
+   "title": "Move Tomato from Turntable to Plate",
+   "instruction": "Pick up the tomato from the rotating turntable and place it in the white plate",
+   "kind": "dynamic moving-target acquisition",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi0/pi0_tomato_from_turntable_to_white_plate_base.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_tomato_from_turntable_to_white_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi0/pi0_tomato_from_turntable_to_white_plate_aware.mp4",
+     "poster": "assets/videos/realworld/pi0/pi0_tomato_from_turntable_to_white_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0.5",
+   "task": "corn_to_pink_plate",
+   "title": "Put Corn on Pink Plate",
+   "instruction": "Put the corn on the pink plate",
+   "kind": "short-horizon placement",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi05/pi05_corn_to_pink_plate_base.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_corn_to_pink_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi05/pi05_corn_to_pink_plate_aware.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_corn_to_pink_plate_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0.5",
+   "task": "press_yellow_then_blue_button",
+   "title": "Press Yellow Button then Blue",
+   "instruction": "Press the yellow button, then press the blue button",
+   "kind": "sequential button pressing",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi05/pi05_press_yellow_then_blue_button_base.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_press_yellow_then_blue_button_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi05/pi05_press_yellow_then_blue_button_aware.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_press_yellow_then_blue_button_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0.5",
+   "task": "box_cover_blue_block",
+   "title": "Cover Blue Block with the Box",
+   "instruction": "Cover the blue block with the box",
+   "kind": "obstacle occlusion",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi05/pi05_box_cover_blue_block_base.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_box_cover_blue_block_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi05/pi05_box_cover_blue_block_aware.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_box_cover_blue_block_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0.5",
+   "task": "corn_to_upper_rack",
+   "title": "Lift Corn onto Upper Rack Shelf",
+   "instruction": "Put the corn on the upper rack",
+   "kind": "multi-tier precision lifting",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi05/pi05_corn_to_upper_rack_base.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_corn_to_upper_rack_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi05/pi05_corn_to_upper_rack_aware.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_corn_to_upper_rack_aware.jpg",
+     "success": true
+    }
+   ]
+  },
+  {
+   "backbone": "π0.5",
+   "task": "tomato_from_turntable_to_white_plate",
+   "title": "Move Tomato from Turntable to Plate",
+   "instruction": "Pick up the tomato from the rotating turntable and place it in the white plate",
+   "kind": "dynamic moving-target acquisition",
+   "alpha": 0.03,
+   "clips": [
+    {
+     "rule": "Base",
+     "file": "assets/videos/realworld/pi05/pi05_tomato_from_turntable_to_white_plate_base.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_tomato_from_turntable_to_white_plate_base.jpg",
+     "success": false
+    },
+    {
+     "rule": "AWARE",
+     "file": "assets/videos/realworld/pi05/pi05_tomato_from_turntable_to_white_plate_aware.mp4",
+     "poster": "assets/videos/realworld/pi05/pi05_tomato_from_turntable_to_white_plate_aware.jpg",
      "success": true
     }
    ]

@@ -77,6 +77,20 @@ window.PAPER_DATA = {
     avg_len: { base: 3.49, aware: 3.63, delta: 0.14, aware_exact: 3.628 }
   },
 
+  /* Figure 3 (bottom) */
+  real_world: {
+    label: "Figure 3",
+    trials_per_cell: 40,
+    columns: ["corn_to_pink_plate", "press_yellow_then_blue_button", "box_cover_blue_block", "corn_to_upper_rack", "tomato_from_turntable_to_white_plate"],
+    models: [
+      { name: "LLaVA-VLA", alpha: 0.01, base: [75.0, 57.5, 65.0, 52.5, 55.0], aware: [82.5, 72.5, 77.5, 62.5, 50.0], delta: [7.5, 15.0, 12.5, 10.0, -5.0] },
+      { name: "OpenVLA-OFT", alpha: 0.04, base: [87.5, 75.0, 72.5, 70.0, 67.5], aware: [92.5, 72.5, 90.0, 82.5, 65.0], delta: [5.0, -2.5, 17.5, 12.5, -2.5] },
+      { name: "CogACT", alpha: 0.05, base: [82.5, 82.5, 80.0, 67.5, 70.0], aware: [90.0, 92.5, 80.0, 67.5, 77.5], delta: [7.5, 10.0, 0.0, 0.0, 7.5] },
+      { name: "π0", alpha: 0.03, base: [90.0, 75.0, 85.0, 77.5, 67.5], aware: [90.0, 85.0, 90.0, 75.0, 77.5], delta: [0.0, 10.0, 5.0, -2.5, 10.0] },
+      { name: "π0.5", alpha: 0.03, base: [92.5, 90.0, 87.5, 82.5, 80.0], aware: [95.0, 90.0, 92.5, 87.5, 87.5], delta: [2.5, 0.0, 5.0, 5.0, 7.5] }
+    ]
+  },
+
   /* Table IV */
   ablation: {
     label: "Table IV",
